@@ -1,7 +1,6 @@
 #include <linux/kernel.h>
+#include <linux/module.h>
 #include <stddef.h>
-#include <string.h>
-#include <errno.h>
 
 
 #define KLS_SIZE 1024
@@ -16,7 +15,7 @@ typedef struct KLS_ITEM{
 ITEM *KLS[KLS_SIZE];
 
 // FIND INDEX
-long find_index(){
+asmlinkage long find_index(void){
 	int _index;
 	for(_index=0; _index<KLS_SIZE; _index++){
 		if(KLS[_index] == NULL){
@@ -30,13 +29,13 @@ long find_index(){
 // INSERT SYST CALL
 asmlinkage long sys_kls_insert(const char *key, size_t keylen, const char *val, size_t vallen){
 	if (keylen > MAX_WORD_SIZE || vallen > MAX_WORD_SIZE){
-		printk(KERN_ERR "ERROR : %s\n", strerror(EINVAL));
+		printk(KERN_ERR "ERROR : Invalid argument\n");
 		return -EINVAL;
 	}
 	else{
 		long _idx = find_index();
 		if (_idx < 0 ){
-			printk(KERN_ERR "ERROR : %s\n", strerror(_idx));
+			printk(KERN_ERR "ERROR : Out of memory\n");
 			return _idx;
 		}
 		else{
@@ -54,7 +53,7 @@ asmlinkage long sys_kls_insert(const char *key, size_t keylen, const char *val, 
 // SEARCH SYST CALL
 asmlinkage long sys_kls_search(const char *key, size_t keylen, char *val, size_t index){
 	if (keylen > MAX_WORD_SIZE ){
-		printk(KERN_ERR "ERROR : %s\n", strerror(EINVAL));
+		printk(KERN_ERR "ERROR : Invalid argument\n");
 		return -EINVAL;
 	}
 	else{
@@ -70,14 +69,14 @@ asmlinkage long sys_kls_search(const char *key, size_t keylen, char *val, size_t
 			}
 		}
 	}
-	printk(KERN_ERR "ERROR : %s\n", strerror(ENOENT));
+	printk(KERN_ERR "ERROR : No such file or directory\n");
 	return -ENOENT;
 }
 
 // DELETE SYST CALL
 asmlinkage long sys_kls_delete(const char *key, size_t keylen){
 	if (keylen > MAX_WORD_SIZE ){
-		printk(KERN_ERR "ERROR : %s\n", strerror(EINVAL));
+		printk(KERN_ERR "ERROR : Invalid argument\n");
 		return -EINVAL;
 	}
 	else{
