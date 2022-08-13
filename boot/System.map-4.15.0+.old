@@ -40869,8 +40869,8 @@ c18a0034 R kallsyms_names
 c19133f0 R kallsyms_markers
 c191364c R kallsyms_token_table
 c19139a4 R kallsyms_token_index
-c19b7791 R __start_ro_after_init
-c19b7791 R rodata_enabled
+c19b77b9 R __start_ro_after_init
+c19b77b9 R rodata_enabled
 c19b8000 r raw_data
 c19ba000 R idt_descr
 c19ba008 R mmu_cr4_features
