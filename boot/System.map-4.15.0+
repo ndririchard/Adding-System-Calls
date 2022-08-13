@@ -16717,10 +16717,10 @@ c134ec80 t queue_state_write.cold
 c134ecd0 T find_index
 c134ed20 T sys_kls_insert
 c134eda0 T sys_kls_search
-c134ee30 T sys_kls_delete
-c134ee82 t sys_kls_insert.cold
-c134eea9 t sys_kls_search.cold
-c134eebf t sys_kls_delete.cold
+c134ee20 T sys_kls_delete
+c134ee72 t sys_kls_insert.cold
+c134ee99 t sys_kls_search.cold
+c134eec5 t sys_kls_delete.cold
 c134eee0 T lockref_get
 c134ef00 T lockref_get_not_zero
 c134ef30 T lockref_get_or_lock

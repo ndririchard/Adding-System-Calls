@@ -82,7 +82,7 @@ asmlinkage long sys_kls_search(const char *key, size_t keylen, char *val, size_t
 			}
 		}
 	}
-	if (found == 1){
+	if (found == 0){
 		printk(KERN_ERR "ERROR : No such file or directory\n");
 		return -ENOENT;
 	}
