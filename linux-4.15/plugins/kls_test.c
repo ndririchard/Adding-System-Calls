@@ -63,28 +63,29 @@ long sys_kls_insert(const char *key, size_t keylen, const char *val, size_t vall
 
 // SEARCH SYST CALL
 long sys_kls_search(const char *key, size_t keylen, char *val, size_t index){
-	int found = 0;
 	if (keylen > MAX_WORD_SIZE ){
 		printf("ERROR : Invalid argument\n");
 		return -EINVAL;
 	}
 	else{
+		int found = 0;
 		int _pos = 0;
 		int _idx;
 		for (_idx=0; _idx<KLS_SIZE; _idx++){
-			if (strcmp(KLS[_idx]->key, key) == 0){
-				if (_pos == index){
-					strcpy(val, KLS[_idx]->val);
-					found = 1;
-					break;
+			if (KLS[_idx] != NULL){
+				if (strcmp(KLS[_idx]->key, key) == 0){
+					if (_pos == index){
+						strcpy(val, KLS[_idx]->val);
+						found = 1;
+					}
+					else _pos ++;
 				}
-				else _pos ++;
 			}
 		}
-	}
-	if (found == 0){
-		printf("ERROR : No such file or directory\n");
-		return -ENOENT;
+		if (found == 0){
+			printf("ERROR : No such file or directory\n");
+			return -ENOENT;
+		}
 	}
 	return 0;
 }
