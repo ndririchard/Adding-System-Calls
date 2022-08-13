@@ -1,0 +1,137 @@
+From f2c41e00d244323ca72d99bf275d9c42eea8f0a6 Mon Sep 17 00:00:00 2001
+From: ndririchard <ndririchard@outlook.com>
+Date: Sat, 13 Aug 2022 08:08:55 +0200
+Subject: [PATCH] final commit
+
+---
+ plugins/kls.c      |  23 ++++++++++++-----------
+ plugins/kls_test.c |  23 ++++++++++++-----------
+ plugins/test       | Bin 17672 -> 17672 bytes
+ 3 files changed, 24 insertions(+), 22 deletions(-)
+
+diff --git a/plugins/kls.c b/plugins/kls.c
+index 46c370bf7..8f749e1f5 100644
+--- a/plugins/kls.c
++++ b/plugins/kls.c
+@@ -63,28 +63,29 @@ asmlinkage long sys_kls_insert(const char *key, size_t keylen, const char *val,
+ 
+ // SEARCH SYST CALL
+ asmlinkage long sys_kls_search(const char *key, size_t keylen, char *val, size_t index){
+-	int found = 0;
+ 	if (keylen > MAX_WORD_SIZE ){
+ 		printk(KERN_ERR "ERROR : Invalid argument\n");
+ 		return -EINVAL;
+ 	}
+ 	else{
++		int found = 0;
+ 		int _pos = 0;
+ 		int _idx;
+ 		for (_idx=0; _idx<KLS_SIZE; _idx++){
+-			if (strcmp(KLS[_idx]->key, key) == 0){
+-				if (_pos == index){
+-					strcpy(val, KLS[_idx]->val);
+-					found = 1;
+-					break;
++			if (KLS[_idx] != NULL){
++				if (strcmp(KLS[_idx]->key, key) == 0){
++					if (_pos == index){
++						strcpy(val, KLS[_idx]->val);
++						found = 1;
++					}
++					else _pos ++;
+ 				}
+-				else _pos ++;
+ 			}
+ 		}
+-	}
+-	if (found == 0){
+-		printk(KERN_ERR "ERROR : No such file or directory\n");
+-		return -ENOENT;
++		if (found == 0){
++			printk(KERN_ERR "ERROR : No such file or directory\n");
++			return -ENOENT;
++		}
+ 	}
+ 	return 0;
+ }
+diff --git a/plugins/kls_test.c b/plugins/kls_test.c
+index 6636d7d3f..ffa026633 100644
+--- a/plugins/kls_test.c
++++ b/plugins/kls_test.c
+@@ -63,28 +63,29 @@ long sys_kls_insert(const char *key, size_t keylen, const char *val, size_t vall
+ 
+ // SEARCH SYST CALL
+ long sys_kls_search(const char *key, size_t keylen, char *val, size_t index){
+-	int found = 0;
+ 	if (keylen > MAX_WORD_SIZE ){
+ 		printf("ERROR : Invalid argument\n");
+ 		return -EINVAL;
+ 	}
+ 	else{
++		int found = 0;
+ 		int _pos = 0;
+ 		int _idx;
+ 		for (_idx=0; _idx<KLS_SIZE; _idx++){
+-			if (strcmp(KLS[_idx]->key, key) == 0){
+-				if (_pos == index){
+-					strcpy(val, KLS[_idx]->val);
+-					found = 1;
+-					break;
++			if (KLS[_idx] != NULL){
++				if (strcmp(KLS[_idx]->key, key) == 0){
++					if (_pos == index){
++						strcpy(val, KLS[_idx]->val);
++						found = 1;
++					}
++					else _pos ++;
+ 				}
+-				else _pos ++;
+ 			}
+ 		}
+-	}
+-	if (found == 0){
+-		printf("ERROR : No such file or directory\n");
+-		return -ENOENT;
++		if (found == 0){
++			printf("ERROR : No such file or directory\n");
++			return -ENOENT;
++		}
+ 	}
+ 	return 0;
+ }
+diff --git a/plugins/test b/plugins/test
+index 579d9789b74df0bdc8b9d3c8075066674e8b3bfd..1f1f5426225b7dad63cd08f902f3722ecccd8530 100755
+GIT binary patch
+delta 859
+zcmZ8eUr19?7(ZuIH~-w$+8;A4b7G=2Elih`)vYcaX_b`IMIZ#3W)UG;FYaNiiPv#c
+zI7WY7LZYBI@jlc;pcFNH2!d)F1R3;jEn$g@rdLnj*>J%Q-1D9D`+eW<``z>P58(a*
+zJZi?-Z6=ghZK@Tw80^E#=-G!}^ZG_d)!CCZy0g4T=~jD<j|EF@7D7Z3#xr@S->a5d
+zy9}Kq7??pAq1)R5>&!z)Gp;j6q7%OuW3%5tIVvr3{iw8(3_1_9_hE}jI(bMG`#X*h
+zCG%n>gh+;ggeSVY)5*j1hs}XwblK)QZQM*$hInrhk*0|pBXU%0&>4e<0HWU+A!!AN
+zBpn9>Ix`|<xz`GwLV-op;{da<TrgWsuh<Wmn)xxlMxWTrnws7JO`J(LQMXCTZ=k70
+z<o86L(mt&*7M|!SO3%*a*^2P9g6?n}x`d$#k;5N1;CYnH<($NAn%^Qx5bT$L66DMz
+z(F6&okVG{=wF>w_-d3p}2ZdMs<urkgI!Y>Uq?qR^=F2LSd`*<|lA9^wHO0>2eKmYk
+z39+se(+4F)3IE|1(x~h7ywg?cOQjy+>c>;+Q`wt_N>^#CE&r(gm$AvWS1T<=cezir
+zVA-`Qws@8Lr+W|*n;Ybq=xdOd#3oVJeME5&1AM_-zD`1OW-Y#=#+~!#vE5!=Fu1^2
+zBh1vh$k;82(@TsE@xjx!;_o{P`Lv}iTl)+rge;>C=b6l?5TH5uJoK`w2!EzQ*pJZ>
+z*QtyS(4hOPZDS=vIdsrnhyCiLyDSUBeDzBMZlo`2@8Act*wb!J2!n_K4YnDq$WI@6
+h;&_J22M2MJT2Ob+jD7T)Se5P1hb&lrbwq48{sW#2Oojje
+
+delta 831
+zcmZ8fK}-`t6rI@?T9CR{S}GBxEkQI`#DG#T#B9jM0Z~Z=iP4a#QNl@s0w&T!Q)*c1
+z0&y<t#c(n4W>|>as1RwmaY7Cnh^JLZl(a>_#qm!oHDQw7zw_Sz@4cPf!67_2gx^_l
+zj%-1xC2MxvE;x*7Tg&i=iO#yq%slyJ=4=09_d~7U^vWg{WFtgW+v_Y|>hrWxd$-UO
+zlM{TJ1OqDwBh-5cs5^NG>4w1=iABFN#=cELM@-)2jWOBaW%Y4HHpmO2IzI9(QL}DR
+z>~P`@>T-B5mQ(-~F$+W;<)S1aFA-&tC^5YYRKXHJwCW7Wn>ZvJI2bUP2_bR#37CZf
+z3Do0+6dU^>MI#+>R9kxaqiE1+M_FsH@1J%!`smW$5Z8A}Wd=-jqRbKHlOF%gSUB2K
+zytliYcdIsYIjwV^yWs&7qJ$Uzz<aA%uJmq+?;>ds;x~X2^sJ=O6bYy=jp~5vP5juv
+zR;^#oMQDm2j_#ui&XS5}8D=iSB)4H?D>cqXhBL%x>M8J4w(abSJ<l+2V1%gQpFBd!
+z=RXyp-38v#o=j^8SHGQ6|CO^FNZzI$`L6Rtz|YU#s}PF^cuo`-k8Vrt&1(JZF@&UR
+zjmo0b)~F<<R!K41i0YdF_-gZs9THlz>f)9ry4J0<#o``!H{-(lamHHUyPixi_5kWs
+zlCe>!$LU?q@{!a}Bkw=(RA{he3-LUQ6`>-qT!YI+Z+VOH1P#L7O~<?!%mg&(>8kwk
+zlF?i`;;Y4eZQfUw4Q0LRy?`s}+p~SRk9ul4?I~dpv4Pb=!H)d&Wz7#9rHX$9S8Ii}
+WSFHF9?UGLA_+8Ki%dd?|ou<EXr$h<>
+
+-- 
+2.25.1
+
