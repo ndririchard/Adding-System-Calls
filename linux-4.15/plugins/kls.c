@@ -76,15 +76,16 @@ asmlinkage long sys_kls_search(const char *key, size_t keylen, char *val, size_t
 				if (_pos == index){
 					strcpy(val,  KLS[_idx]->val);
 					found = 1;
-					return 0;
 				}
 				else _pos ++;
 			}
 		}
 	}
-	if (found==1)
+	if (found==1){
 		printk(KERN_ERR "ERROR : No such file or directory\n");
-	return -ENOENT;
+		return -ENOENT;
+	}
+	return 0;
 }
 
 // DELETE SYST CALL
